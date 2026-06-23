@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
-
-  console.log("Shopify Code:", code);
-
-  return NextResponse.redirect(
-    new URL("https://test-next-day-nutra-hotworx.myshopify.com/")
-  );
+  return new Response(`
+    <html>
+      <body>
+        <script>
+          setTimeout(() => {
+            window.location.href = "https://test-next-day-nutra-hotworx.myshopify.com/";
+          }, 2000);
+        </script>
+        Logging in...
+      </body>
+    </html>
+  `, {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
 }
