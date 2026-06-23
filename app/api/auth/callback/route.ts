@@ -81,11 +81,37 @@ export async function GET(request: Request) {
       customerType = "new";
     }
 
-    return NextResponse.redirect(
-      `https://test-next-day-nutra-hotworx.myshopify.com/?logged_in=1&type=${customerType}&email=${encodeURIComponent(
-        email
-      )}`
+    return new Response(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Completing Login...</title>
+</head>
+<body>
+  <h2>Please wait...</h2>
+
+  <script>
+    sessionStorage.setItem(
+      "customer_type",
+      "${customerType}"
     );
+
+    sessionStorage.setItem(
+      "customer_email",
+      "${email}"
+    );
+
+    // First go to account page
+    window.location.href =
+      "https://test-next-day-nutra-hotworx.myshopify.com/account?from_login=1";
+  </script>
+</body>
+</html>
+`, {
+  headers: {
+    "Content-Type": "text/html",
+  },
+});
   } catch (error: any) {
     return Response.json({
       error: true,
