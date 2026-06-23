@@ -78,14 +78,14 @@ export async function GET(request: Request) {
       tags.includes("first_time_signup");
 
     if (isNewCustomer) {
-  customerType = "new";
-}
+      customerType = "new";
+    }
 
-return Response.json({
-  email,
-  customerType,
-  tags,
-});
+    return NextResponse.redirect(
+      `https://test-next-day-nutra-hotworx.myshopify.com/?logged_in=1&type=${customerType}&email=${encodeURIComponent(
+        email
+      )}`
+    );
   } catch (error: any) {
     return Response.json({
       error: true,
