@@ -2,11 +2,6 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
 
-  const result: any = {
-    received_code: code,
-    timestamp: new Date().toISOString(),
-  };
-
   try {
     const response = await fetch(
       "https://shopify.com/authentication/100596318496/oauth/token",
@@ -25,19 +20,25 @@ export async function GET(request: Request) {
       }
     );
 
-    result.status = response.status;
-    result.statusText = response.statusText;
+    const data = await response.json();
 
-    const text = await response.text();
+    const idToken = data.id_token;
 
-    result.response = text;
+    const payload = JSON.parse(
+      Buffer.from(idToken.split(".")[1], "base64").toString()
+    );
 
-    return Response.json(result);
+    return Response.json({
+      logged_in: true,
+      email: payload.email,
+      email_verified: payload.email_verified,
+      customer_id: payload.sub,
+      access_token: data.access_token,
+    });
   } catch (e: any) {
     return Response.json({
       error: true,
       message: e?.message,
-      stack: e?.stack,
     });
   }
 }
