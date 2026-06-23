@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     );
 
     const email = payload.email;
-	
+
     let customerType = "existing";
 
     // Search customer by email
@@ -65,12 +65,10 @@ export async function GET(request: Request) {
     );
 
     const customerData =
-  await customerResponse.json();
+      await customerResponse.json();
 
-return Response.json({
-  status: customerResponse.status,
-  customerData,
-});
+    const customer =
+      customerData?.customers?.[0];
 
     const tags =
       customer?.tags || "";
