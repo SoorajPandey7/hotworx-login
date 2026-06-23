@@ -7,6 +7,6 @@ export async function GET(request: Request) {
   console.log("Shopify Code:", code);
 
   return NextResponse.redirect(
-    new URL("/", "https://hotworx-login.vercel.app")
+    new URL("https://test-next-day-nutra-hotworx.myshopify.com/")
   );
 }

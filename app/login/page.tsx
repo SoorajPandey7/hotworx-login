@@ -1,7 +1,7 @@
 export default function LoginPage() {
   const loginUrl =
     "https://shopify.com/authentication/100596318496/oauth/authorize" +
-    "?client_id=88420f56-41b8-419b-8169-ba8f9fba8371" +
+    "?client_id=777015f3-c7ba-435b-a6c9-e95c84bd5953" +
     "&redirect_uri=https%3A%2F%2Fhotworx-login.vercel.app%2Fapi%2Fauth%2Fcallback" +
     "&response_type=code" +
     "&scope=openid%20email";
