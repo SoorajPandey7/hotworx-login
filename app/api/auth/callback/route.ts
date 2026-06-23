@@ -23,33 +23,15 @@ export async function GET(request: Request) {
 
   const data = await tokenResponse.json();
 
-  return new Response(
-  `
-  <html>
-    <body style="font-family:Arial;padding:40px">
-      <h1>Login Success</h1>
+  const payload = JSON.parse(
+    Buffer.from(data.id_token.split(".")[1], "base64").toString()
+  );
 
-      <p>Customer authenticated successfully.</p>
+  const email = payload.email;
 
-      <a
-        href="https://test-next-day-nutra-hotworx.myshopify.com/"
-        style="
-          padding:12px 20px;
-          background:#000;
-          color:#fff;
-          text-decoration:none;
-          border-radius:6px;
-        "
-      >
-        Continue To Store
-      </a>
-    </body>
-  </html>
-  `,
-  {
-    headers: {
-      "Content-Type": "text/html",
-    },
-  }
-);
+  return NextResponse.redirect(
+    `https://test-next-day-nutra-hotworx.myshopify.com/?logged_in=1&email=${encodeURIComponent(
+      email
+    )}`
+  );
 }
