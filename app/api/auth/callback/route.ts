@@ -47,12 +47,6 @@ export async function GET(request: Request) {
 
     const email = payload.email;
 	
-	return Response.json({
-	  email,
-	  shop: process.env.SHOPIFY_STORE,
-	  token_exists: !!process.env.SHOPIFY_ADMIN_TOKEN,
-	});
-	
     let customerType = "existing";
 
     // Search customer by email
@@ -71,10 +65,12 @@ export async function GET(request: Request) {
     );
 
     const customerData =
-      await customerResponse.json();
+  await customerResponse.json();
 
-    const customer =
-      customerData?.customers?.[0];
+return Response.json({
+  status: customerResponse.status,
+  customerData,
+});
 
     const tags =
       customer?.tags || "";
