@@ -23,21 +23,33 @@ export async function GET(request: Request) {
 
   const data = await tokenResponse.json();
 
-  const response = NextResponse.redirect(
-    "https://test-next-day-nutra-hotworx.myshopify.com/"
-  );
+  return new Response(
+  `
+  <html>
+    <body style="font-family:Arial;padding:40px">
+      <h1>Login Success</h1>
 
-  response.cookies.set(
-    "customer_access_token",
-    data.access_token,
-    {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60,
-    }
-  );
+      <p>Customer authenticated successfully.</p>
 
-  return response;
+      <a
+        href="https://test-next-day-nutra-hotworx.myshopify.com/"
+        style="
+          padding:12px 20px;
+          background:#000;
+          color:#fff;
+          text-decoration:none;
+          border-radius:6px;
+        "
+      >
+        Continue To Store
+      </a>
+    </body>
+  </html>
+  `,
+  {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  }
+);
 }
