@@ -1,8 +1,9 @@
+import { cookies } from "next/headers";
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
 
   const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
 
   return new Response(
     `
@@ -10,18 +11,21 @@ export async function GET(request: Request) {
       <body style="font-family:Arial;padding:40px">
         <h1>LOGIN SUCCESS</h1>
 
-        <h3>Code</h3>
+        <h3>Authorization Code</h3>
         <pre>${code}</pre>
 
-        <h3>State</h3>
-        <pre>${state}</pre>
+        <button onclick="getToken()">Get Token</button>
 
-        <h3>All Params</h3>
-        <pre>${JSON.stringify(
-          Object.fromEntries(url.searchParams.entries()),
-          null,
-          2
-        )}</pre>
+        <pre id="result"></pre>
+
+        <script>
+          async function getToken() {
+            const res = await fetch('/api/auth/token?code=${code}');
+            const data = await res.text();
+
+            document.getElementById('result').innerText = data;
+          }
+        </script>
       </body>
     </html>
     `,
